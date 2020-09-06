@@ -1,32 +1,21 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
+import React from "react";
+import ChatNavigator from "./app/features/ChatNavigator";
 
-import React from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-} from 'react-native';
+import { Provider } from "react-redux";
+import { createStore, combineReducers, applyMiddleware } from "redux";
+import ReduxThunk from "redux-thunk";
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-import ChatNavigator from './app/features/ChatNavigator'
+import authReducer from "./app/core/store/reducer/auth";
+import errorReducer from "./app/core/store/reducer/error";
+const rootReducer = combineReducers({
+  auth: authReducer,
+});
+const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 const App: () => React$Node = () => {
   return (
-    <ChatNavigator/>
+    <Provider store={store}>
+      <ChatNavigator />
+    </Provider>
   );
 };
 
