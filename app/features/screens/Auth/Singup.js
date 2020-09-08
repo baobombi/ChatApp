@@ -56,24 +56,16 @@ const formReducer = (state, action) => {
 const Singup = (props) => {
   //useEffect
   useEffect(() => {
-    if (error) {
-      Alert.alert("The username or password is incorrect", error, [
-        { text: "OK" },
-      ]);
-    } else if (isSignUpError) {
+    if (isSignUpError) {
       Alert.alert("Notice", isSignUpError, [{ text: "OK" }]);
     }
-    return () => {
-      setIsSignUpError(null);
-      setError(null);
-    };
   }, [isSignUpError, error]);
 
   //Properties
+  const [mounted, setMounted] = useState(true);
   const [error, setError] = useState("");
   const [isSignUpError, setIsSignUpError] = useState("");
   const [isLoginLoading, setIsLoginLoading] = useState(false);
-  const [logoAnime, setLogoAnime] = useState(new Animated.Value(0));
   const [formState, dispatchFormState] = useReducer(formReducer, {
     inputValues: {
       email: "",
@@ -102,9 +94,15 @@ const Singup = (props) => {
     },
     [dispatchFormState]
   );
-
+  useEffect(() => {
+    return () => {
+      setMounted(false);
+      setIsLoginLoading(false);
+      setIsSignUpError(null);
+    };
+  }, []);
   const registerHandler = useCallback(async () => {
-    setError(null);
+    //setError(null);
     if (!formState.formIsValid) {
       Alert.alert("vui long lam lai", "vui long nhap het cac truong", [
         { text: "OK" },
@@ -113,24 +111,24 @@ const Singup = (props) => {
     }
     setIsSignUpError(null);
     setIsLoginLoading(true);
-    try {
-      await dispatch(
-        authActions.register(
-          formState.inputValues.email,
-          formState.inputValues.password,
-          formState.inputValues.cpassword,
-          formState.inputValues.name
-        )
-      );
-      props.navigation.navigate("ChatRoomNavigator");
-      setIsLoginLoading(false);
-    } catch (err) {
-      setIsSignUpError(err.message);
-      setIsLoginLoading(false);
+    if (mounted) {
+      try {
+        await dispatch(
+          authActions.register(
+            formState.inputValues.email,
+            formState.inputValues.password,
+            formState.inputValues.cpassword,
+            formState.inputValues.name
+          )
+        );
+        setIsLoginLoading(false);
+        props.navigation.navigate("ChatRoomNavigator");
+      } catch (err) {
+        setIsSignUpError(err.message);
+        setIsLoginLoading(false);
+      }
     }
   }, [dispatch, formState]);
-
-  //
 
   return (
     <View style={styles.container}>

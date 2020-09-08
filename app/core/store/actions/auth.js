@@ -17,7 +17,52 @@ export const authenticate = (userId, token, expiryTime) => {
   };
 };
 
-export const login = (email, password) => {};
+/**
+ *
+ * @route {login}
+ * @url {/api/auth} Public
+ */
+
+export const login = (email, password) => {
+  return async (dispatch) => {
+    const data = { email, password };
+    if (email != "") {
+      await axios({
+        method: "POST",
+        url: `http://127.0.0.1:9000/api/auth`,
+        data,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => {
+          dispatch(
+            authenticate(
+              res.data.user.id,
+              res.data.token,
+              parseInt(1728000) * 1000
+            )
+          );
+          const expirationDate = new Date(
+            new Date().getTime() + parseInt(1728000) * 1000
+          );
+          saveDataToStorage(
+            res.data.token,
+            res.data.user.id,
+            res.data.user.email,
+            res.data.user.name,
+            expirationDate
+          );
+        })
+        .catch((err) => {
+         
+          let message = err.response.data.msg;
+           console.log(message);
+          throw new Error(message);
+        });
+    }
+  };
+};
 
 /**
  *
@@ -37,19 +82,23 @@ export const register = (email, password, cpassword, name) => {
         },
       })
         .then((res) => {
-          //console.log("data nhan ve la: ", res.data);
           dispatch(
             authenticate(
               res.data.user.id,
               res.data.token,
-             
+              parseInt(1728000) * 1000
             )
           );
           const expirationDate = new Date(
-            new Date().getTime() + parseInt(20)* 1000
+            new Date().getTime() + parseInt(1728000) * 1000
           );
-          console.log('ngay het han: ',expirationDate)
-          saveDataToStorage(res.data.token, res.data.user.id, expirationDate);
+          saveDataToStorage(
+            res.data.token,
+            res.data.user.id,
+            res.data.user.email,
+            res.data.user.name,
+            expirationDate
+          );
         })
         .catch((err) => {
           let message = "Some thing went wrong!!!";
@@ -83,12 +132,14 @@ const setLogoutTimer = (expirationTime) => {
   };
 };
 
-const saveDataToStorage = (token, userId, expirationDate) => {
+const saveDataToStorage = (token, userId, email, name, expirationDate) => {
   AsyncStorage.setItem(
     "userData",
     JSON.stringify({
       token: token,
       userId: userId,
+      name: name,
+      email: email,
       expiryDate: expirationDate.toISOString(),
     })
   );

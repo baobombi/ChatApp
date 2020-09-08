@@ -8,6 +8,7 @@ import {
   Animated,
   View,
   Text,
+  Alert,
 } from "react-native";
 
 //Font, Icon...
@@ -20,6 +21,10 @@ import Colors from "../../../core/constants/Color";
 import UnderLine from "../../../core/components/UnderLine";
 import InputTextCustom from "../../../core/components/InputTextCustom";
 import ButtonCustom from "../../../core/components/ButtonCustom";
+
+//Redux
+import * as authActions from "../../../core/store/actions/auth";
+import { useDispatch } from "react-redux";
 
 const { height, width } = Dimensions.get("screen");
 const FORM_INPUT_UPDATE = "FORM_INPUT_UPDATE";
@@ -49,9 +54,11 @@ const formReducer = (state, action) => {
   }
 };
 const Login = (props) => {
-  
   //Properties
-  const [logoAnime, setLogoAnime] = useState(new Animated.Value(0));
+  const dispatch = useDispatch();
+  const [mounted, setMounted] = useState(true);
+  const [isLoginError, setIsLoginError] = useState("");
+  const [isLoginLoading, setIsLoginLoading] = useState(false);
   const [formState, dispatchFormState] = useReducer(formReducer, {
     inputValues: {
       email: "",
@@ -64,6 +71,17 @@ const Login = (props) => {
     formIsValid: false,
   });
 
+  //useEffect
+  useEffect(() => {
+    if (isLoginError) {
+      Alert.alert("Notice", isLoginError, [{ text: "OK" }]);
+    }
+    return () => {
+      setIsLoginError(null);
+      //setError(null);
+    };
+  }, [isLoginError]);
+
   const inputChangeHandler = useCallback(
     (inputIdentifier, inputValue, inputValidity) => {
       dispatchFormState({
@@ -75,11 +93,45 @@ const Login = (props) => {
     },
     [dispatchFormState]
   );
+  useEffect(() => {
+    return () => {
+      setMounted(false);
+      setIsLoginLoading(false);
+      setIsLoginError(null);
+    };
+  }, []);
+  const LoginHandler = useCallback(async () => {
+    //setError(null);
+    if (!formState.formIsValid) {
+      Alert.alert(
+        "やり直してください",
+        "ユーザー名とパスワードがご登録の内容と異なっています。ご確認の上、再度お試してください",
+        [{ text: "OK" }]
+      );
+      return;
+    }
+    setIsLoginError(null);
+    setIsLoginLoading(true);
+    if (mounted) {
+      try {
+        await dispatch(
+          authActions.login(
+            formState.inputValues.email,
+            formState.inputValues.password
+          )
+        );
+       // console.log('da di vao day')
+       setIsLoginLoading(false);
+       setIsLoginError(null);
+       props.navigation.navigate("ChatRoomNavigator");
+      } catch (err) {
+        //console.log(" day la error", err.message);
+        setIsLoginError(err.message);
+        setIsLoginLoading(false);
+      }
+    }
+  }, [dispatch, formState]);
 
-  const testConfig = () => {
-    console.log("email la: ", formState.inputValues.email),
-      console.log("password la:", formState.inputValues.password);
-  };
   return (
     <View style={styles.container}>
       {/* First */}
@@ -155,7 +207,7 @@ const Login = (props) => {
           <View style={styles.buttonView}>
             <ButtonCustom
               name="Login"
-              onPressButton={testConfig}
+              onPressButton={LoginHandler}
               styleProps={styles.buttonValue}
             />
           </View>

@@ -12,7 +12,8 @@ import {
   
 } from "react-native";
 
-const ChatRoom = () =>{
+const ChatRoom = (props) =>{
+
     return <View style={{flex: 1}}><Text>day la chat room</Text></View>
 }
 export default ChatRoom
