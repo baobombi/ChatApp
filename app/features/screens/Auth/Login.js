@@ -120,10 +120,10 @@ const Login = (props) => {
             formState.inputValues.password
           )
         );
-       // console.log('da di vao day')
-       setIsLoginLoading(false);
-       setIsLoginError(null);
-       props.navigation.navigate("ChatRoomNavigator");
+        // console.log('da di vao day')
+        setIsLoginLoading(false);
+        setIsLoginError(null);
+        props.navigation.navigate("ChatRoomNavigator");
       } catch (err) {
         //console.log(" day la error", err.message);
         setIsLoginError(err.message);

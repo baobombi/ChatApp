@@ -8,6 +8,7 @@ export const LOGOUT = "LOGOUT";
 let timer;
 export const authenticate = (userId, token, expiryTime) => {
   return (dispatch) => {
+    console.log('da di vao day')
     dispatch(setLogoutTimer(expiryTime));
     dispatch({
       type: AUTHENTICATE,

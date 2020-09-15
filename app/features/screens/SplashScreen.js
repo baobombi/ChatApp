@@ -13,10 +13,12 @@ import {
 } from "react-native";
 import * as Animatable from "react-native-animatable";
 import AntDesign from "react-native-vector-icons/AntDesign";
+import { useDispatch, useSelector } from "react-redux";
+import AsyncStorage from "@react-native-community/async-storage";
+import * as authActions from '../../core/store/actions/auth'
 const { height, width } = Dimensions.get("window");
-
-console.disableYellowBox = true;
 const SplashScreen = (props) => {
+  const dispatch = useDispatch();
   //const [colorChange, setColorChange] = useState(Colors.default);
   const [colorChange, setColorChange] = useState(new Animated.Value(0));
 
@@ -33,6 +35,29 @@ const SplashScreen = (props) => {
     inputRange: [0, 1],
     outputRange: ["rgb(255, 255, 255)", "rgb(121,178,89)"],
   });
+
+  useEffect(() => {
+    const tryLogin = async () => {
+      const userData = await AsyncStorage.getItem("userData");
+      if (!userData) {
+        return;
+      }
+      console.log('userData',userData)
+      const transformedData = JSON.parse(userData);
+      const { token, userId, name, email, expiryDate } = transformedData;
+      const newExpriryDate = new Date(expiryDate);
+      if (newExpriryDate <= new Date() || !token || !userId) {
+        return;
+      }
+      const exTime = newExpriryDate.getTime() - new Date().getTime();
+      //console.log('exTime',exTime)
+      dispatch(authActions.authenticate(userId, token, exTime))
+      props.navigation.navigate('ChatRoomNavigator');
+
+    };
+    tryLogin();
+    return () => {};
+  }, [dispatch]);
   return (
     <Animated.View
       style={[styles.container, { backgroundColor: colorChanged }]}

@@ -49,13 +49,15 @@ const ChatRoomNavigator = createStackNavigator(
     ChatRoomScreen: {
       screen: ChatRoomScreen,
       navigationOptions: {
-        headerShown: "false",
+        headerTitleStyle: {
+          color: "#FB1963",
+        },
       },
     },
   },
   {
     initialRouteName: "ChatRoomScreen",
-    defaultNavigationOptions: defaultNavOptions,
+    // defaultNavigationOptions: defaultNavOptions,
   }
 );
 const ChatNavigator = createSwitchNavigator(
