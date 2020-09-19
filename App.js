@@ -6,9 +6,10 @@ import { createStore, combineReducers, applyMiddleware } from "redux";
 import ReduxThunk from "redux-thunk";
 
 import authReducer from "./app/core/store/reducer/auth";
-import errorReducer from "./app/core/store/reducer/error";
+import chatReducer from "./app/core/store/reducer/chat";
 const rootReducer = combineReducers({
   auth: authReducer,
+  chat: chatReducer,
 });
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 const App: () => React$Node = () => {

@@ -122,7 +122,7 @@ const Singup = (props) => {
           )
         );
         setIsLoginLoading(false);
-        props.navigation.navigate("ChatRoomNavigator");
+        props.navigation.navigate("TabNavigator");
       } catch (err) {
         setIsSignUpError(err.message);
         setIsLoginLoading(false);

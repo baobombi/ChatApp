@@ -19,7 +19,9 @@ import Lego from ".././../../core/assets/lego.png";
 import ChatView from "../../../core/components/ChatScreen/ChatView";
 import Entypo from "react-native-vector-icons/Entypo";
 export const { height, width } = Dimensions.get("screen");
+
 const ChatRoom = (props) => {
+  //properties
   const [data, setData] = useState([
     {
       id: 1,
@@ -32,13 +34,10 @@ const ChatRoom = (props) => {
       msgId: "www",
     },
   ]);
-  //console.log(data)
-  //properties
   const textInput = createRef();
   const flatList = createRef();
 
   //func
-
   const updateInput = (text) => {};
   const submitMsg = () => {};
   return (
@@ -67,13 +66,12 @@ const ChatRoom = (props) => {
           <View style={styles.textInputViewStyle}>
             <TextInput
               placeholderTextColor="#2E2D2C"
-              //multiline={true}
-              placeholder="Type something"
+              placeholder="Aa"
               onChangeText={(text) => updateInput(text)}
               onSubmitEditing={() => submitMsg()}
-              clearButtonMode={"always"}
               autoCorrect={false}
               style={styles.textInputStyles}
+              returnKeyType="send"
             />
           </View>
 
@@ -81,8 +79,7 @@ const ChatRoom = (props) => {
             //onPress={() => this.submitMsg()}
             style={styles.addButton}
           >
-            {/* <Image source={Add} onPress={() => this.submitMsg()} /> */}
-            <Entypo name="direction"  color="#FB1963" size={30}/>
+            <Entypo name="direction" color="#FB1963" size={30} />
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
@@ -133,7 +130,7 @@ ChatRoom.navigationOptions = (navData) => {
     headerTitle: "Chat Room",
     headerLeft: () => (
       <IconHeader
-        left
+        
         name={Platform.OS === "android" ? "md-menu" : "ios-menu"}
         onTapped={() => {
           // navData.navigation.toggleDrawer();

@@ -14,6 +14,7 @@ const ChatView = (props) => {
       <TouchableOpacity style={styles.left}>
         <Image source={props.avatar} style={styles.avatarStyle} />
       </TouchableOpacity>
+
       <TouchableOpacity style={styles.right}>
         <Text style={styles.name}>{props.name}</Text>
         <Text style={styles.chatMsg}>Im a dev, subcriber now</Text>
@@ -39,6 +40,7 @@ const styles = StyleSheet.create({
     flex: 9,
     backgroundColor: "#E6E6E6",
     borderRadius: 20,
+    padding: 10
   },
   name: {
     color: "#95989A",

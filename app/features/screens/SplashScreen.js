@@ -15,7 +15,7 @@ import * as Animatable from "react-native-animatable";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import { useDispatch, useSelector } from "react-redux";
 import AsyncStorage from "@react-native-community/async-storage";
-import * as authActions from '../../core/store/actions/auth'
+import * as authActions from "../../core/store/actions/auth";
 const { height, width } = Dimensions.get("window");
 const SplashScreen = (props) => {
   const dispatch = useDispatch();
@@ -42,18 +42,16 @@ const SplashScreen = (props) => {
       if (!userData) {
         return;
       }
-      console.log('userData',userData)
       const transformedData = JSON.parse(userData);
       const { token, userId, name, email, expiryDate } = transformedData;
       const newExpriryDate = new Date(expiryDate);
       if (newExpriryDate <= new Date() || !token || !userId) {
         return;
       }
+      console.log(new Date().getTime());
       const exTime = newExpriryDate.getTime() - new Date().getTime();
-      //console.log('exTime',exTime)
-      dispatch(authActions.authenticate(userId, token, exTime))
-      props.navigation.navigate('ChatRoomNavigator');
-
+      dispatch(authActions.authenticate(userId, token, exTime));
+      props.navigation.navigate("TabNavigator");
     };
     tryLogin();
     return () => {};
@@ -103,8 +101,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    //justifyContent:'ce'
-    //backgroundColor: Colors.default,
   },
   topText: {
     fontSize: width * 0.06,
@@ -135,7 +131,6 @@ const styles = StyleSheet.create({
     color: "white",
   },
   iconView: {
-    //backgroundColor: '#58FAAC',
     height: height * 0.1,
     width: width * 0.22,
     justifyContent: "center",

@@ -21,7 +21,8 @@
     <string>Zocial.ttf</string>
     <string>Fontisto.ttf</string>
   </array>
-  
+    <key>NSContactsUsageDescription</key>
+    <string>Your message to user when the contacts is accessed for the first time</string>
 	<key>CFBundleGetInfoString</key>
 	<string></string>
 	<key>LSApplicationCategoryType</key>

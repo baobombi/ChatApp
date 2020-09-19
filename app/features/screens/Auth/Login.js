@@ -123,7 +123,7 @@ const Login = (props) => {
         // console.log('da di vao day')
         setIsLoginLoading(false);
         setIsLoginError(null);
-        props.navigation.navigate("ChatRoomNavigator");
+        props.navigation.navigate("TabNavigator");
       } catch (err) {
         //console.log(" day la error", err.message);
         setIsLoginError(err.message);

@@ -8,7 +8,6 @@ export const LOGOUT = "LOGOUT";
 let timer;
 export const authenticate = (userId, token, expiryTime) => {
   return (dispatch) => {
-    console.log('da di vao day')
     dispatch(setLogoutTimer(expiryTime));
     dispatch({
       type: AUTHENTICATE,
@@ -56,9 +55,8 @@ export const login = (email, password) => {
           );
         })
         .catch((err) => {
-         
           let message = err.response.data.msg;
-           console.log(message);
+          console.log(message);
           throw new Error(message);
         });
     }
