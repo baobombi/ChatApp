@@ -48,7 +48,7 @@ const SplashScreen = (props) => {
       if (newExpriryDate <= new Date() || !token || !userId) {
         return;
       }
-      console.log(new Date().getTime());
+      //console.log(new Date().getTime());
       const exTime = newExpriryDate.getTime() - new Date().getTime();
       dispatch(authActions.authenticate(userId, token, exTime));
       props.navigation.navigate("TabNavigator");

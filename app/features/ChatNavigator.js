@@ -22,6 +22,7 @@ import ContactScreen from "./screens/PersonalUser/Contact";
 import TimeLineScreen from "./screens/PersonalUser/TimeLine";
 import OptionalScreen from "./screens/PersonalUser/Optional";
 import ChatRoomScreen from "./screens/Chat/ChatRoom";
+import Color from "../core/constants/Color";
 
 const { width, height } = Dimensions.get("screen");
 
@@ -66,8 +67,12 @@ const PersonalNavigator = createStackNavigator(
     Message: {
       screen: MessageScreen,
       navigationOptions: {
+        headerStyle:{
+          backgroundColor: Colors.headerColor
+        },
         headerTitleStyle: {
-          color: "#FB1963",
+          color: 'white',
+          //backgroundColor: Colors.headerColor
         },
       },
     },
@@ -85,6 +90,9 @@ const ContactNavigator = createStackNavigator(
       screen: ContactScreen,
       navigationOptions: {
         headerShown: false,
+        // headerStyle:{
+        //   backgroundColor: '#00BFFF'	
+        // }
         //title: 'abc'
       },
     },
@@ -99,6 +107,7 @@ const TabNavigator = createBottomTabNavigator(
     Message: {
       screen: PersonalNavigator,
       navigationOptions: {
+      
         tabBarIcon: (tabInfo) => {
           return (
             <AntDesign
@@ -145,7 +154,7 @@ const TabNavigator = createBottomTabNavigator(
         backgroundColor: "white",
       },
       labelStyle: {},
-      activeTintColor: Colors.headerColor,
+      activeTintColor: Colors.tintColor,
     },
   }
 );
