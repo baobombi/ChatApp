@@ -6,12 +6,12 @@ import { View, StyleSheet, Platform,TouchableOpacity, Dimensions } from "react-n
 const { width, height } = Dimensions.get("screen");
 const IconHeader = (props) => {
   return (
-    <TouchableOpacity style={styles.viewButton} onPress={props.onTapped}>
+    <TouchableOpacity style={[styles.viewButton,{backgroundColor: props.backgroundColor}]} onPress={props.onTapped}>
       <Icon
         name={props.name}
         onPress={props.onTapped}
         size={30}
-        color={Platform.OS === "android" ? "#FB1963" : "#FB1963"}
+        color={Platform.OS === "android" ? "white" : "white"}
       />
     </TouchableOpacity>
   );
@@ -19,7 +19,7 @@ const IconHeader = (props) => {
 
 const styles = StyleSheet.create({
   viewButton: {
-    backgroundColor: "white",
+    //backgroundColor: "white",
     overflow: "hidden",
     justifyContent: "center",
     alignItems: "center",

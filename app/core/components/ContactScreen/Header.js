@@ -17,8 +17,8 @@ const Header = (props) => {
         <Image source={props.source} />
       </TouchableOpacity>
       <Text style={styles.textStyle}>Contact</Text>
-      <TouchableOpacity>
-        <Ionicons name="add" size={30} color='white' />
+      <TouchableOpacity onPress={props.addNewContact}>
+        <Ionicons name="add" size={30} color="white" />
       </TouchableOpacity>
     </View>
   );

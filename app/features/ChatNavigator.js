@@ -53,8 +53,11 @@ const ChatRoomNavigator = createStackNavigator(
       screen: ChatRoomScreen,
       navigationOptions: {
         headerTitleStyle: {
-          color: "#FB1963",
+          color: "white",
         },
+        headerStyle:{
+          backgroundColor: Colors.headerColor
+        }
       },
     },
   },
@@ -67,16 +70,16 @@ const PersonalNavigator = createStackNavigator(
     Message: {
       screen: MessageScreen,
       navigationOptions: {
-        headerStyle:{
-          backgroundColor: Colors.headerColor
+        headerStyle: {
+          backgroundColor: Colors.headerColor,
         },
         headerTitleStyle: {
-          color: 'white',
+          color: "white",
           //backgroundColor: Colors.headerColor
         },
       },
     },
-    ChatRoom: ChatRoomNavigator,
+    //ChatRoom: ChatRoomNavigator,
     //Contact: ContactScreen,
   },
   {
@@ -91,10 +94,17 @@ const ContactNavigator = createStackNavigator(
       navigationOptions: {
         headerShown: false,
         // headerStyle:{
-        //   backgroundColor: '#00BFFF'	
+        //   backgroundColor: '#00BFFF'
         // }
         //title: 'abc'
       },
+    },
+    ChatRoomNavigator: {
+      screen: ChatRoomNavigator,
+      navigationOptions:{
+        headerShown: false,
+        tabBarVisible: false,
+      }
     },
   },
   {
@@ -107,7 +117,6 @@ const TabNavigator = createBottomTabNavigator(
     Message: {
       screen: PersonalNavigator,
       navigationOptions: {
-      
         tabBarIcon: (tabInfo) => {
           return (
             <AntDesign
@@ -120,7 +129,7 @@ const TabNavigator = createBottomTabNavigator(
       },
     },
     Contact: {
-      screen: ContactNavigator,
+      screen: ContactScreen,
       navigationOptions: {
         tabBarIcon: (tabInfo) => {
           return (

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useEffect, useRef } from "react";
 import {
   View,
   Text,
@@ -13,10 +13,10 @@ import { width } from "../../constants/HeightWidthDevice";
 
 import Feather from "react-native-vector-icons/Feather";
 const ListItem = (props) => {
-  //console.log(props.title)
+  let isOpened;
   const Component =
     props.onPress || props.onLongPress ? TouchableHighlight : View;
-
+  const swipeableRow = useRef(null);
   const renderRightAction = (iconName, color, x, progress) => {
     const trans = progress.interpolate({
       inputRange: [-100, 0],
@@ -45,13 +45,33 @@ const ListItem = (props) => {
       </Animated.View>
     );
   };
-  const renderRightActions = (progress) => (
-    <View style={{ width: 75, flexDirection: "row" }}>
-      {renderRightAction("trash-2", "#ef5350", 64, progress)}
-    </View>
-  );
+  const renderRightActions = (progress) => {
+    // console.log("da di vao day");
+    return (
+      <View style={{ width: 75, flexDirection: "row" }}>
+        {renderRightAction("trash-2", "#ef5350", 64, progress)}
+      </View>
+    );
+  };
+  const onSwipeOpen = () => {
+    if (!isOpened) {
+      isOpened = true;
+      props.onOpen(swipeableRow);
+    }
+  };
+  const onSwipeClose = () => {
+    if (isOpened) {
+      isOpened = false;
+      props.onClose(swipeableRow);
+    }
+  };
   return (
-    <Swipeable friction={1} renderRightActions={renderRightActions}>
+    <Swipeable
+      onSwipeableOpen={onSwipeOpen}
+      onSwipeableClose={onSwipeClose}
+      ref={swipeableRow}
+      renderRightActions={renderRightActions}
+    >
       <Component
         onPress={props.onPress}
         onLongPress={props.onLongPress}

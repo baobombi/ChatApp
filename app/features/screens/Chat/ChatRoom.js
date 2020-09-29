@@ -13,6 +13,7 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
 } from "react-native";
+import Colors from "../../../core/constants/Color";
 import IconHeader from "../../../core/components/ChatScreen/IconHeader";
 import Add from ".././../../core/assets/add.png";
 import Lego from ".././../../core/assets/lego.png";
@@ -130,11 +131,12 @@ ChatRoom.navigationOptions = (navData) => {
     headerTitle: "Chat Room",
     headerLeft: () => (
       <IconHeader
-        
-        name={Platform.OS === "android" ? "md-menu" : "ios-menu"}
+        name={Platform.OS === "android" ? "chevron-back" : "chevron-back"}
         onTapped={() => {
-          // navData.navigation.toggleDrawer();
+          console.log("aaa");
+          navData.navigation.navigate("TabNavigator");
         }}
+        backgroundColor={Colors.headerColors}
       />
     ),
     headerRight: () => (
@@ -148,6 +150,7 @@ ChatRoom.navigationOptions = (navData) => {
         onTapped={() => {
           // navData.navigation.toggleDrawer();
         }}
+        backgroundColor={Colors.headerColor}
       />
     ),
     // headerBackTitle: "戻り",
